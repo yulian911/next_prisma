@@ -1,11 +1,11 @@
-import { NextResponse } from 'next/server'
+import { NextResponse } from 'next/server';
 
-import { PrismaClient } from '@prisma/client'
+import { PrismaClient } from '@prisma/client';
 
-const prisma = new PrismaClient()
+const prisma = new PrismaClient();
 
 export const POST = async (req: Request) => {
-  const { title, brandId, price } = await req.json()
+  const { title, brandId, price } = await req.json();
   try {
     const product = await prisma.product.create({
       data: {
@@ -13,12 +13,24 @@ export const POST = async (req: Request) => {
         price,
         brandId,
       },
-    })
+    });
 
-    return NextResponse.json(product)
+    return NextResponse.json(product);
   } catch (error) {
-    return NextResponse.json({ error: error })
+    return NextResponse.json({ error: error });
   } finally {
-    await prisma.$disconnect()
+    await prisma.$disconnect();
   }
-}
+};
+
+export const GET = async (req: Request) => {
+  try {
+    const product = await prisma.product.findMany();
+
+    return NextResponse.json(product);
+  } catch (error) {
+    return NextResponse.json({ error: error });
+  } finally {
+    await prisma.$disconnect();
+  }
+};
