@@ -1,10 +1,13 @@
-import getAllProducts from '@/lib/getAllProducts';
-import Image from 'next/image';
+import { authOptions } from '@/lib/authOptions'
+import getAllProducts from '@/lib/getAllProducts'
+import { getServerSession } from 'next-auth'
+import Image from 'next/image'
 
 export default async function Home() {
   // const products = await getAllProducts();
+  // const session = getServerSession(authOptions)
 
-  return <main></main>;
+  return <main></main>
 }
 
 // export async function generateStaticParams() {

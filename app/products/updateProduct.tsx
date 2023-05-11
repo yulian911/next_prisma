@@ -4,6 +4,7 @@ import React, { SyntheticEvent, useEffect, useState } from 'react'
 
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 const UpdateProduct = ({ brands, products }: any) => {
   const [product, setProduct] = useState({
@@ -13,7 +14,7 @@ const UpdateProduct = ({ brands, products }: any) => {
   })
   const [isOpen, setIsOpen] = useState(false)
   const router = useRouter()
-
+  const { data: session } = useSession()
   //   const getProductDetails = async () => {
   //     const data = await axios.get(`/api/products/${id}`)
   //     console.log(data)
@@ -24,16 +25,26 @@ const UpdateProduct = ({ brands, products }: any) => {
   //     })
   //   }
 
+  // console.log(session?.user.accessToken)
+
   const handleModal = () => {
     setIsOpen(prev => !prev)
   }
   const handleSubmit = async (e: SyntheticEvent) => {
     e.preventDefault()
-    await axios.patch(`/api/products/${products.id}`, {
-      title: product.title,
-      price: Number(product.price),
-      brandId: Number(product.brand),
-    })
+    await axios.patch(
+      `/api/products/${products.id}`,
+      {
+        title: product.title,
+        price: Number(product.price),
+        brandId: Number(product.brand),
+      },
+      {
+        headers: {
+          Authorization: `${session?.user.accessToken}`,
+        },
+      },
+    )
 
     router.refresh()
     setIsOpen(false)
