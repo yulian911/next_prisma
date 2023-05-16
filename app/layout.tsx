@@ -2,6 +2,7 @@ import Navbar from '@/components/Navbar'
 import './globals.css'
 import { Inter } from 'next/font/google'
 import Providers from '@/components/Provider'
+import ProtectedRoute from '@/lib/ProtectRoute'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -13,10 +14,12 @@ export const metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body suppressHydrationWarning={true} className={inter.className}>
         <Providers>
-          <Navbar />
-          {children}
+          <ProtectedRoute>
+            <Navbar />
+            {children}
+          </ProtectedRoute>
         </Providers>
       </body>
     </html>
