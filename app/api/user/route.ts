@@ -1,14 +1,15 @@
-import prisma from '@/lib/prisma'
-import * as bcrypt from 'bcrypt'
+import prisma from '@/lib/prisma';
+import * as bcrypt from 'bcrypt';
+import { NextRequest } from 'next/server';
 
 interface RequestBody {
-  name: string
-  email: string
-  password: string
+  name: string;
+  email: string;
+  password: string;
 }
 
-export async function POST(request: Request) {
-  const body: RequestBody = await request.json()
+export async function POST(request: NextRequest) {
+  const body: RequestBody = await request.json();
 
   const user = await prisma.user.create({
     data: {
@@ -16,8 +17,8 @@ export async function POST(request: Request) {
       email: body.email,
       password: await bcrypt.hash(body.password, 10),
     },
-  })
+  });
 
-  const { password, ...result } = user
-  return new Response(JSON.stringify(result))
+  const { password, ...result } = user;
+  return new Response(JSON.stringify(result));
 }

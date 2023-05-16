@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import React from 'react'
-import Search from './Search'
-import SigninButton from './SignInButton'
+import Link from 'next/link';
+import React from 'react';
+import Search from './Search';
+import SigninButton from './SignInButton';
 
 const Navbar = () => {
   return (
@@ -13,12 +13,18 @@ const Navbar = () => {
         <Link href={'/products'} className="btn">
           Products
         </Link>
+        <Link href={'/admin'} className="btn">
+          Admin
+        </Link>
+        <Link href={'/user'} className="btn">
+          User
+        </Link>
         <Search />
       </div>
 
       <SigninButton />
     </nav>
-  )
-}
+  );
+};
 
-export default Navbar
+export default Navbar;

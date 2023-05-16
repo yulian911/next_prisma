@@ -1,20 +1,21 @@
-'use client'
+'use client';
 
-import React, { SyntheticEvent, useEffect, useState } from 'react'
+import React, { SyntheticEvent, useEffect, useState } from 'react';
 
-import axios from 'axios'
-import { useRouter } from 'next/navigation'
-import { useSession } from 'next-auth/react'
+import axios from 'axios';
+import { useRouter } from 'next/navigation';
+import { useSession } from 'next-auth/react';
+import { $authHost } from '@/lib/instance';
 
 const UpdateProduct = ({ brands, products }: any) => {
   const [product, setProduct] = useState({
     title: products.title,
     price: products.price,
     brand: products.brandId,
-  })
-  const [isOpen, setIsOpen] = useState(false)
-  const router = useRouter()
-  const { data: session } = useSession()
+  });
+  const [isOpen, setIsOpen] = useState(false);
+  const router = useRouter();
+  const { data: session } = useSession();
   //   const getProductDetails = async () => {
   //     const data = await axios.get(`/api/products/${id}`)
   //     console.log(data)
@@ -28,10 +29,15 @@ const UpdateProduct = ({ brands, products }: any) => {
   // console.log(session?.user.accessToken)
 
   const handleModal = () => {
-    setIsOpen(prev => !prev)
-  }
+    setIsOpen(prev => !prev);
+  };
   const handleSubmit = async (e: SyntheticEvent) => {
-    e.preventDefault()
+    e.preventDefault();
+    // await $authHost.patch(`/api/products/${products.id}`, {
+    //   title: product.title,
+    //   price: Number(product.price),
+    //   brandId: Number(product.brand),
+    // });
     await axios.patch(
       `/api/products/${products.id}`,
       {
@@ -39,16 +45,16 @@ const UpdateProduct = ({ brands, products }: any) => {
         price: Number(product.price),
         brandId: Number(product.brand),
       },
-      {
-        headers: {
-          Authorization: `${session?.user.accessToken}`,
-        },
-      },
-    )
+      // {
+      //   headers: {
+      //     Authorization: `${session?.user.accessToken}`,
+      //   },
+      // },
+    );
 
-    router.refresh()
-    setIsOpen(false)
-  }
+    router.refresh();
+    setIsOpen(false);
+  };
   return (
     <div>
       <button className="btn" onClick={handleModal}>
@@ -56,10 +62,10 @@ const UpdateProduct = ({ brands, products }: any) => {
       </button>
       <div className={isOpen ? 'modal modal-open' : 'modal'}>
         <div className="modal-box">
-          <h3 className="font-bold text-lg">Update Product</h3>
+          <h3 className="text-lg font-bold">Update Product</h3>
           <form onSubmit={handleSubmit}>
-            <div className="form-control w-full">
-              <label htmlFor="" className="label font-bold">
+            <div className="w-full form-control">
+              <label htmlFor="" className="font-bold label">
                 Product Name
               </label>
               <input
@@ -70,8 +76,8 @@ const UpdateProduct = ({ brands, products }: any) => {
                 placeholder="Product Name"
               />
             </div>
-            <div className="form-control w-full">
-              <label htmlFor="" className="label font-bold">
+            <div className="w-full form-control">
+              <label htmlFor="" className="font-bold label">
                 Price
               </label>
               <input
@@ -82,8 +88,8 @@ const UpdateProduct = ({ brands, products }: any) => {
                 placeholder=" Price"
               />
             </div>
-            <div className="form-control w-full">
-              <label htmlFor="" className="label font-bold">
+            <div className="w-full form-control">
+              <label htmlFor="" className="font-bold label">
                 Brand
               </label>
               <select
@@ -112,7 +118,7 @@ const UpdateProduct = ({ brands, products }: any) => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default UpdateProduct
+export default UpdateProduct;
