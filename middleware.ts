@@ -1,8 +1,17 @@
-export { default } from 'next-auth/middleware'
+// import withAuth from 'next-auth/middleware';
+// import { authOptions } from './lib/authOptions';
+export { default } from 'next-auth/middleware';
+
+// export default withAuth({
+//   jwt: { decode: authOptions.jwt },
+//   callbacks: {
+//     authorized: ({ token }) => !!token,
+//   },
+// })
 
 export const config = {
   matcher: ['/', '/admin/:path*', '/user/:path*'],
-}
+};
 
 // export default withAuth(
 //   // `withAuth` augments your `Request` with the user's token.
@@ -14,16 +23,9 @@ export const config = {
 //       authorized: ({ token }) => token?.role === 'admin',
 //     },
 //   },
-// )
+// );
 
 // export const config = { matcher: ['/admin'] }
-
-// export default withAuth({
-//   jwt: { decode: authOptions.jwt },
-//   callbacks: {
-//     authorized: ({ token }) => !!token,
-//   },
-// })
 
 // import { NextApiRequest, NextApiResponse } from 'next'
 // import { withAuth } from 'next-auth/middleware'

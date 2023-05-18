@@ -1,21 +1,19 @@
 // 'use client';
 import { authOptions } from '@/lib/authOptions';
 import getAllProducts from '@/lib/getAllProducts';
+import getCurrentUser from '@/lib/getSession';
 import { getServerSession } from 'next-auth';
 
 import { getSession, useSession } from 'next-auth/react';
+import { redirect } from 'next/navigation';
 
 export default async function Home() {
-  async function getSession() {
-    return await getServerSession(authOptions);
-  }
-
-  const session = await getSession();
-  console.log(session);
   // const products = await getAllProducts();
-  // const session = getServerSession(authOptions)
+  const session = await getCurrentUser();
 
-  return <main></main>;
+  redirect(`/${session?.role}`);
+
+  return <main>XD</main>;
 }
 
 // export async function generateStaticParams() {
