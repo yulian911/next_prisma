@@ -3,7 +3,7 @@
 import React, { SyntheticEvent, useEffect, useState } from 'react';
 
 import axios from 'axios';
-import { useRouter } from 'next/navigation';
+import { redirect, useRouter } from 'next/navigation';
 import { useSession } from 'next-auth/react';
 import { $authHost } from '@/lib/instance';
 
@@ -15,7 +15,13 @@ const UpdateProduct = ({ brands, products }: any) => {
   });
   const [isOpen, setIsOpen] = useState(false);
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession({
+    required: true,
+    onUnauthenticated() {
+      redirect('/signin?callbackUrl=/protected/client');
+    },
+  });
+  console.log(status);
   //   const getProductDetails = async () => {
   //     const data = await axios.get(`/api/products/${id}`)
   //     console.log(data)

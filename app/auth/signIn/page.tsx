@@ -16,6 +16,7 @@ const LoginPage = () => {
       redirect: true,
       callbackUrl: '/',
     });
+    console.log(result);
   };
   return (
     <div
